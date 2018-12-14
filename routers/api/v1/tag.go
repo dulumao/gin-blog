@@ -2,10 +2,12 @@ package v1
 
 import (
 	"gin-blog/models"
+	"gin-blog/models/forms"
 	"gin-blog/pkg/e"
 	"gin-blog/pkg/utils"
 	"gin-blog/setting"
 	"github.com/gin-gonic/gin"
+	"log"
 	"net/http"
 )
 
@@ -35,10 +37,28 @@ func GetTags(c *gin.Context) {
 
 //新增文章标签
 func AddTag(c *gin.Context) {
-	//name := c.Query("name")
-	//createBy := c.Query("createBy")
-	//status := c.Query("status")
+	var addForm forms.TagAddForm
+	err := c.ShouldBind(&addForm)
+	result := gin.H{}
+	if err != nil {
+		result["code"] = e.INVALID_PARAMS
+		result["message"] = e.GetMsg(e.INVALID_PARAMS)
+		c.JSON(200, result)
+		log.Print(err)
+		return
+	}
+	exist := models.TagIsExist(addForm.Name)
+	if exist {
+		result["code"] = e.ERROR_EXIST_TAG
+		result["message"] = e.GetMsg(e.ERROR_EXIST_TAG)
+		c.JSON(200, result)
+		return
+	}
 
+	models.CreateTag(addForm.Name, addForm.CreatedBy, int(addForm.Status))
+	result["code"] = e.SUCCESS
+	result["message"] = e.GetMsg(e.SUCCESS)
+	c.JSON(200, result)
 }
 
 //修改文章标签

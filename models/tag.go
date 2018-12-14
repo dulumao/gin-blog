@@ -52,10 +52,12 @@ func TagIsExist(name string) bool {
 	return false
 }
 
-func CreateTag(name, CreatedBy string, status int) {
-	db.Create(&Tag{
+func CreateTag(name, CreatedBy string, status int) *Tag {
+	tag := &Tag{
 		Name:      name,
 		CreatedBy: CreatedBy,
 		Status:    status,
-	})
+	}
+	db.Create(tag)
+	return tag
 }
