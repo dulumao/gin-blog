@@ -1,17 +1,25 @@
 package routers
 
 import (
+	"gin-blog/pkg/setting"
 	"gin-blog/routers/api/v1"
-	"gin-blog/setting"
 	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin/binding"
 )
 
 func InitRouter() *gin.Engine {
+
 	// 设置运行模式
 	gin.SetMode(setting.RunMode)
+
 	// 创建路由
 	router := gin.New()
+	gin.Default()
+	// 设置表单验证 validator.v9
+	binding.Validator = new(ValidatorV9)
+
 	// 使用中间件
+	//router.Use(middleware.Common())
 	router.Use(gin.Logger(), gin.Recovery())
 
 	// 设置路由组

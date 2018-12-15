@@ -1,22 +1,15 @@
 package middleware
 
 import (
-	"gin-blog/pkg/e"
+	"fmt"
 	"github.com/gin-gonic/gin"
-	"net/http"
 )
 
-// 通用的 panic 处理
-func CommonRecover() gin.HandlerFunc {
+func Common() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		if err := recover(); err != nil {
-			if err := recover(); err != nil {
-				c.JSON(http.StatusOK, gin.H{
-					"code": e.ERROR,
-					"msg":  e.GetMsg(e.ERROR),
-					"data": nil,
-				})
-			}
-		}
+		fmt.Println("Next 之前")
+		c.Abort()
+		c.Next()
+		fmt.Println("next 之后")
 	}
 }

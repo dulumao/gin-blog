@@ -1,7 +1,8 @@
 package models
 
 import (
-	"gin-blog/setting"
+	"gin-blog/pkg/setting"
+	"gin-blog/pkg/utils"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	"log"
@@ -10,9 +11,9 @@ import (
 var db *gorm.DB
 
 type Model struct {
-	ID           int `gorm:"primary_key" json:"id"`
-	CreatedDate  int `json:"created_date"`
-	ModifiedDate int `json:"modified_date"`
+	CreatedAt utils.JsonTime
+	UpdatedAt utils.JsonTime
+	DeletedAt *utils.JsonTime `sql:"index"`
 }
 
 func init() {
@@ -24,8 +25,12 @@ func init() {
 	if err != nil {
 		log.Fatalf("连接数据库错误:%v", err)
 	}
+
 	// 全局禁用表名复数形式
 	db.SingularTable(true)
 	// 开启打印sql
 	db.LogMode(true)
+
+	// 同步数据库表
+	db.AutoMigrate(&Tag{})
 }

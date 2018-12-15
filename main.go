@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
+	"gin-blog/pkg/setting"
 	"gin-blog/routers"
-	"gin-blog/setting"
 	"log"
 	"net/http"
 )

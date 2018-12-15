@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"gin-blog/setting"
+	"gin-blog/pkg/setting"
 	"github.com/gin-gonic/gin"
 	"strconv"
 )
