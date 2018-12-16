@@ -2,18 +2,18 @@ package models
 
 import (
 	"gin-blog/pkg/setting"
-	"gin-blog/pkg/utils"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	"log"
+	"time"
 )
 
 var db *gorm.DB
 
 type Model struct {
-	CreatedAt utils.JsonTime
-	UpdatedAt utils.JsonTime
-	DeletedAt *utils.JsonTime `sql:"index"`
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	DeletedAt *time.Time `sql:"index"`
 }
 
 func init() {
@@ -25,6 +25,9 @@ func init() {
 	if err != nil {
 		log.Fatalf("连接数据库错误:%v", err)
 	}
+
+	// 迁移表
+	db.AutoMigrate(&User{})
 
 	// 全局禁用表名复数形式
 	db.SingularTable(true)

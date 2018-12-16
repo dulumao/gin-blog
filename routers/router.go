@@ -1,7 +1,10 @@
 package routers
 
 import (
+	"gin-blog/middleware"
 	"gin-blog/pkg/setting"
+	"gin-blog/pkg/utils"
+	"gin-blog/routers/api"
 	"gin-blog/routers/api/v1"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
@@ -16,17 +19,27 @@ func InitRouter() *gin.Engine {
 	router := gin.New()
 	gin.Default()
 	// 设置表单验证 validator.v9
-	binding.Validator = new(ValidatorV9)
+	binding.Validator = new(utils.ValidatorV9)
 
-	// 使用中间件
+	// 使用全局中间件
 	//router.Use(middleware.Common())
 	router.Use(gin.Logger(), gin.Recovery())
 
-	// 设置路由组
+	// 鉴权路由组
+	auth := router.Group("/auth")
+	{
+		auth.POST("/register", api.Register)
+		auth.POST("/login", api.Auth)
+	}
+
+	// api v1 路由组
 	apiV1 := router.Group("/api/v1")
+	// 添加认证中间件
+	apiV1.Use(middleware.AuthJwtToken())
 	{
 		//获取标签列表
-		apiV1.GET("/tags", v1.GetTags)
+		//单个中间件
+		apiV1.GET("/tags", middleware.Common(), v1.GetTags)
 		//新建标签
 		apiV1.POST("/tags", v1.AddTag)
 		//更新指定标签

@@ -1,4 +1,4 @@
-package routers
+package utils
 
 import (
 	"github.com/gin-gonic/gin/binding"
@@ -6,6 +6,8 @@ import (
 	"reflect"
 	"sync"
 )
+
+// validate v8 升级 v9
 
 type ValidatorV9 struct {
 	once     sync.Once

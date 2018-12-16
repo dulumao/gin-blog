@@ -7,7 +7,6 @@ import (
 	"gin-blog/pkg/setting"
 	"gin-blog/pkg/utils"
 	"github.com/gin-gonic/gin"
-	"log"
 	"net/http"
 	"strconv"
 )
@@ -45,7 +44,6 @@ func AddTag(c *gin.Context) {
 		result["code"] = e.InvalidParams
 		result["message"] = e.GetMsg(e.InvalidParams)
 		c.JSON(200, result)
-		log.Print(err)
 		return
 	}
 	exist := models.TagIsExistByName(addForm.Name)
@@ -56,7 +54,13 @@ func AddTag(c *gin.Context) {
 		return
 	}
 
-	models.CreateTag(addForm.Name, addForm.CreatedBy, addForm.Status)
+	_, err = models.CreateTag(addForm.Name, addForm.CreatedBy, addForm.Status)
+	if err != nil {
+		result["code"] = e.ERROR
+		result["message"] = e.GetMsg(e.ERROR)
+		c.JSON(200, result)
+		return
+	}
 	result["code"] = e.SUCCESS
 	result["message"] = e.GetMsg(e.SUCCESS)
 	c.JSON(200, result)

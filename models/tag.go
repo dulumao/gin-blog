@@ -1,5 +1,7 @@
 package models
 
+import "errors"
+
 type Tag struct {
 	ID         uint   `gorm:"primary_key"`
 	Name       string `json:"name" gorm:"size:20"`
@@ -37,14 +39,17 @@ func TagIsExistByName(name string) bool {
 }
 
 // 创建tag
-func CreateTag(name, CreatedBy string, status int) *Tag {
+func CreateTag(name, CreatedBy string, status int) (*Tag, error) {
 	tag := &Tag{
 		Name:      name,
 		CreatedBy: CreatedBy,
 		Status:    status,
 	}
-	db.Create(tag)
-	return tag
+	i := db.Create(tag).RowsAffected
+	if i < 1 {
+		return nil, errors.New("create tag fail")
+	}
+	return tag, nil
 }
 
 // 通过标签id获取标签
