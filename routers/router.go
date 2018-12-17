@@ -17,7 +17,7 @@ func InitRouter() *gin.Engine {
 
 	// 创建路由
 	router := gin.New()
-	gin.Default()
+
 	// 设置表单验证 validator.v9
 	binding.Validator = new(utils.ValidatorV9)
 
