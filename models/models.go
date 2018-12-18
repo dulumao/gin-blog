@@ -26,14 +26,12 @@ func init() {
 		log.Fatalf("连接数据库错误:%v", err)
 	}
 
-	// 迁移表
-	db.AutoMigrate(&User{})
-
 	// 全局禁用表名复数形式
 	db.SingularTable(true)
 	// 开启打印sql
 	db.LogMode(true)
 
-	// 同步数据库表
+	// 迁移表
+	db.AutoMigrate(&User{})
 	db.AutoMigrate(&Tag{})
 }
