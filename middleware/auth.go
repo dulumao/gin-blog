@@ -18,5 +18,6 @@ func AuthJwtToken() gin.HandlerFunc {
 		}
 		result["message"] = "token 无效"
 		c.JSON(200, result)
+		c.Abort() // 结束调用链
 	}
 }
