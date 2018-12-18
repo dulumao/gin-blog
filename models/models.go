@@ -2,18 +2,18 @@ package models
 
 import (
 	"gin-blog/pkg/setting"
+	"gin-blog/pkg/utils"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	"log"
-	"time"
 )
 
 var db *gorm.DB
 
 type Model struct {
-	CreatedAt time.Time
-	UpdatedAt time.Time
-	DeletedAt *time.Time `sql:"index"`
+	CreatedAt utils.JsonTime  `json:"created_at,omitempty" gorm:"type:datetime"`
+	UpdatedAt utils.JsonTime  `json:"updated_at,omitempty"gorm:"type:datetime"`
+	DeletedAt *utils.JsonTime `json:"deleted_at,omitempty" sql:"index" gorm:"type:datetime"`
 }
 
 func init() {
