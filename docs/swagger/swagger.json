@@ -15,7 +15,7 @@
         },
         "version": "1.0"
     },
-    "host": "172.16.14.240:8080",
+    "host": "localhost:8080",
     "basePath": "/api/v1",
     "paths": {
         "/tags": {

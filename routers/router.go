@@ -7,6 +7,7 @@ import (
 	"gin-blog/pkg/utils"
 	"gin-blog/routers/api"
 	"gin-blog/routers/api/v1"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 	"github.com/swaggo/gin-swagger"
@@ -27,6 +28,8 @@ func InitRouter() *gin.Engine {
 	// 使用全局中间件
 	//router.Use(middleware.Common())
 	router.Use(gin.Logger(), gin.Recovery())
+	// 允许跨越
+	router.Use(cors.Default())
 
 	// docs 路由
 	router.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
