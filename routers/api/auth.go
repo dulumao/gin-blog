@@ -6,6 +6,7 @@ import (
 	"gin-blog/pkg/forms"
 	"gin-blog/pkg/utils"
 	"github.com/gin-gonic/gin"
+	"log"
 	"net/http"
 )
 
@@ -18,6 +19,7 @@ func Register(c *gin.Context) {
 		result["code"] = e.InvalidParams
 		result["message"] = e.GetMsg(e.InvalidParams)
 		c.JSON(200, result)
+		log.Println(err)
 		return
 	}
 	exist := models.UserIsExistByUsername(regUser.Username)
@@ -41,7 +43,7 @@ func Register(c *gin.Context) {
 }
 
 // 获取token
-func Auth(c *gin.Context) {
+func Login(c *gin.Context) {
 	result := gin.H{}
 	var authForm forms.AuthForm
 	err := c.ShouldBind(&authForm)
@@ -63,7 +65,7 @@ func Auth(c *gin.Context) {
 			return
 		}
 	}
-	result["code"] = e.ErrorAuth
-	result["message"] = e.GetMsg(e.ErrorAuth)
+	result["code"] = -1
+	result["message"] = "密码错误"
 	c.JSON(http.StatusOK, result)
 }

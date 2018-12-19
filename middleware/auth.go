@@ -8,8 +8,7 @@ import (
 
 func AuthJwtToken() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		//cookie, err := c.Request.Cookie("token")
-		token := c.Query("token")
+		token := c.Request.Header.Get("Token")
 		result := gin.H{}
 		claims, err := utils.ParseToken(token)
 		if err == nil && claims.ExpiresAt > time.Now().Unix() {

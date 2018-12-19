@@ -1,6 +1,7 @@
 package routers
 
 import (
+	_ "gin-blog/docs" // docs 初始化
 	"gin-blog/middleware"
 	"gin-blog/pkg/setting"
 	"gin-blog/pkg/utils"
@@ -8,6 +9,8 @@ import (
 	"gin-blog/routers/api/v1"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
+	"github.com/swaggo/gin-swagger"
+	"github.com/swaggo/gin-swagger/swaggerFiles"
 )
 
 func InitRouter() *gin.Engine {
@@ -25,11 +28,14 @@ func InitRouter() *gin.Engine {
 	//router.Use(middleware.Common())
 	router.Use(gin.Logger(), gin.Recovery())
 
+	// docs 路由
+	router.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
 	// 鉴权路由组
 	auth := router.Group("/auth")
 	{
 		auth.POST("/register", api.Register)
-		auth.POST("/login", api.Auth)
+		auth.POST("/login", api.Login)
 	}
 
 	// api v1 路由组

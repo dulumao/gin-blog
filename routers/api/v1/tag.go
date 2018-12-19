@@ -11,7 +11,17 @@ import (
 	"strconv"
 )
 
-//获取多个文章标签
+// @Summary 获取标签
+// @Description 获取标签
+// @Tags tag
+// @Accept json
+// @Produce json
+// @Param name query string false "指定 name 查询"
+// @Success 200 {string} json "{"code":200,"data":{},"msg":"ok"}"
+// @Failure 400 {string} string "ok"
+// @Failure 404 {string} string "ok"
+// @Failure 500 {string} string "ok"
+// @Router /tags [get]
 func GetTags(c *gin.Context) {
 	// 获取查询参数
 	name := c.Query("name")
@@ -35,7 +45,19 @@ func GetTags(c *gin.Context) {
 
 }
 
-//新增文章标签
+// @Summary 添加标签
+// @Description 添加标签
+// @Tags tag
+// @Accept json
+// @Produce json
+// @Param name query string true "标签名字"
+// @Param created_by query string true "创建人"
+// @Param status query string true "状态"
+// @Success 200 {string} json "{"code":200,"data":{},"msg":"ok"}"
+// @Failure 400 {string} string "ok"
+// @Failure 404 {string} string "ok"
+// @Failure 500 {string} string "ok"
+// @Router /tags [post]
 func AddTag(c *gin.Context) {
 	var addForm forms.AddTagForm
 	err := c.ShouldBind(&addForm)

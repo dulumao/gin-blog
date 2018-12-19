@@ -8,6 +8,28 @@ import (
 	"net/http"
 )
 
+// @title 博客 API 文档
+// @version 1.0
+// @description 描述呢
+// @termsOfService http://swagger.io/terms/
+
+// @contact.name zengxianxue
+// @contact.url https://github.com/zengxianxue
+// @contact.email zengxianxue@gmail.com
+
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @host 172.16.14.240:8080
+// @BasePath /api/v1
+
+// 密码认证
+// @securityDefinitions.basic BasicAuth
+
+// JWT 认证
+// @securityDefinitions.apikey ApiKeyAuth
+// @in header
+// @name token
 func main() {
 	router := routers.InitRouter()
 	s := http.Server{
