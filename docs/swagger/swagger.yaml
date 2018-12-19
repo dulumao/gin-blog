@@ -1,0 +1,97 @@
+basePath: /api/v1
+host: 172.16.14.240:8080
+info:
+  contact:
+    email: zengxianxue@gmail.com
+    name: zengxianxue
+    url: https://github.com/zengxianxue
+  description: 描述呢
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: 博客 API 文档
+  version: "1.0"
+paths:
+  /tags:
+    get:
+      consumes:
+      - application/json
+      description: 获取标签
+      parameters:
+      - description: 指定 name 查询
+        in: query
+        name: name
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":200,"data":{},"msg":"ok"}'
+          schema:
+            type: string
+        "400":
+          description: ok
+          schema:
+            type: string
+        "404":
+          description: ok
+          schema:
+            type: string
+        "500":
+          description: ok
+          schema:
+            type: string
+      summary: 获取标签
+      tags:
+      - tag
+    post:
+      consumes:
+      - application/json
+      description: 添加标签
+      parameters:
+      - description: 标签名字
+        in: query
+        name: name
+        required: true
+        type: string
+      - description: 创建人
+        in: query
+        name: created_by
+        required: true
+        type: string
+      - description: 状态
+        in: query
+        name: status
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":200,"data":{},"msg":"ok"}'
+          schema:
+            type: string
+        "400":
+          description: ok
+          schema:
+            type: string
+        "404":
+          description: ok
+          schema:
+            type: string
+        "500":
+          description: ok
+          schema:
+            type: string
+      summary: 添加标签
+      tags:
+      - tag
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: token
+    type: apiKey
+  BasicAuth:
+    type: basic
+swagger: "2.0"
