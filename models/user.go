@@ -29,7 +29,10 @@ func UserIsExistByUsername(username string) bool {
 }
 
 func CreateUser(username, password, name, phone string) (*User, error) {
-	password = utils.Encrypt(password, username) // 加密
+	password, err := utils.Encrypt(password)
+	if err != nil {
+		return nil, err
+	}
 	user := &User{
 		Username: username,
 		Password: password,
@@ -44,11 +47,14 @@ func CreateUser(username, password, name, phone string) (*User, error) {
 }
 
 func CheckPassword(username, password string) *User {
-	password = utils.Encrypt(password, username)
 	user := &User{}
-	i := db.Where("username = ? AND password = ?", username, password).First(user).RowsAffected
-	if i < 1 {
+	i := db.Where("username = ? ", username).First(user).RowsAffected
+	if i != 1 {
 		return nil
 	}
-	return user
+	err := utils.CheckPassword(user.Password, password)
+	if err == nil {
+		return user
+	}
+	return nil
 }

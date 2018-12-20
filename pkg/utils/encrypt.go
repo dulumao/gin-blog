@@ -1,22 +1,17 @@
 package utils
 
-import (
-	"crypto/md5"
-	"encoding/hex"
-	//"github.com/golang/crypto"
-)
+import "golang.org/x/crypto/bcrypt"
 
-var salt = "6(&^%!@#$%^&*(&*^((6151"
-
-func Encrypt(str string, salts ...string) string {
-
-	hash := md5.New()
-	hash.Write([]byte(str))
-	for _, s := range salts {
-		hash.Write([]byte(s))
+// admin 123456
+func Encrypt(str string) (pwd string, err error) {
+	bytes, err := bcrypt.GenerateFromPassword([]byte(str), bcrypt.DefaultCost)
+	if err != nil {
+		return "", err
 	}
-	hash.Write([]byte(salt))
-	sum := hash.Sum(nil)
-	// 16进制转字符串
-	return hex.EncodeToString(sum)
+	return string(bytes), nil
+}
+
+func CheckPassword(hashPwd, pwd string) (err error) {
+	err = bcrypt.CompareHashAndPassword([]byte(hashPwd), []byte(pwd))
+	return
 }
