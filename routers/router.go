@@ -7,12 +7,21 @@ import (
 	"gin-blog/pkg/utils"
 	"gin-blog/routers/api"
 	"gin-blog/routers/api/v1"
+	"github.com/getsentry/raven-go"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 	"github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
+	"log"
 )
+
+func init() {
+	err := raven.SetDSN("https://<key>:<secret>@sentry.io/<project>")
+	if err != nil {
+		log.Printf("set sentry DSN error:%v\n", err)
+	}
+}
 
 func InitRouter() *gin.Engine {
 
@@ -28,6 +37,7 @@ func InitRouter() *gin.Engine {
 	// 使用全局中间件
 	//router.Use(middleware.Common())
 	router.Use(gin.Logger(), gin.Recovery())
+	router.Use(middleware.SentryRecovery())
 	// 允许跨越
 	router.Use(cors.Default())
 
