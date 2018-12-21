@@ -1,5 +1,6 @@
 # 使用 alpine 创建纯净版 Go 镜像
 # 编译时需设置： CGO_ENABLED=0
+# CGO_ENABLED=0 go build
 FROM alpine
 
 # 定义环境变量
