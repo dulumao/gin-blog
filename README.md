@@ -26,10 +26,19 @@ go mod tidy
 ./build.sh
 ```
 # Docker 部署
-- [Docker参考](https://yeasy.gitbooks.io/docker_practice/introduction/)
-- [docker-compose参考](https://yeasy.gitbooks.io/docker_practice/compose/)
 
-执行：
+启动容器：
 ```bash
 docker-compose up -d
 ```
+访问：`127.0.0.1:8080/docs/index.html` 输出`swagger`生成的文档
+
+停止服务：
+```bash
+docker-compose down
+```
+
+# 参考资料
+- [Docker参考](https://yeasy.gitbooks.io/docker_practice/introduction/)
+- [docker-compose参考](https://yeasy.gitbooks.io/docker_practice/compose/)
+- [博客参考：EDDYCJY](https://github.com/EDDYCJY/go-gin-example)
