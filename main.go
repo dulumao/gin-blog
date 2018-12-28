@@ -17,8 +17,8 @@ import (
 // @contact.url https://github.com/zengxianxue
 // @contact.email zengxianxue@gmail.com
 
-// @license.name Apache 2.0
-// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+// @license.name MIT License
+// @license.url https://github.com/zengxianxue/gin-blog/blob/master/LICENSE
 
 // @host localhost:8080
 // @BasePath /api/v1
