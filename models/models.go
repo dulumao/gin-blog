@@ -1,27 +1,31 @@
 package models
 
 import (
+	"fmt"
 	"gin-blog/pkg/setting"
-	"gin-blog/pkg/utils"
 	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/sqlite"
+	"time"
+	//_ "github.com/jinzhu/gorm/dialects/sqlite"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"log"
 )
 
 var db *gorm.DB
 
 type Model struct {
-	CreatedAt utils.JsonTime  `json:"created_at,omitempty" gorm:"type:datetime"`
-	UpdatedAt utils.JsonTime  `json:"updated_at,omitempty"gorm:"type:datetime"`
-	DeletedAt *utils.JsonTime `json:"deleted_at,omitempty" sql:"index" gorm:"type:datetime"`
+	CreatedAt time.Time  `json:"created_at,omitempty" gorm:"type:datetime"`
+	UpdatedAt time.Time  `json:"updated_at,omitempty" gorm:"type:datetime"`
+	DeletedAt *time.Time `json:"deleted_at,omitempty" sql:"index" gorm:"type:datetime"`
 }
 
 func init() {
-	dbPath, err := setting.Cfg.Section("sqlite3").GetKey("path")
-	if err != nil {
-		log.Fatalf("读取配置文件错误：%v", err)
-	}
-	db, err = gorm.Open("sqlite3", dbPath.Value())
+	mysqlConf := setting.Cfg.Section("mysql")
+	user, _ := mysqlConf.GetKey("USER")
+	pwd, _ := mysqlConf.GetKey("PASSWORD")
+	host, _ := mysqlConf.GetKey("HOST")
+	dbName, _ := mysqlConf.GetKey("DB_NAME")
+	mysqlUrl := fmt.Sprintf("%s:%s@(%s)/%s?charset=utf8&parseTime=True&loc=Local", user, pwd, host, dbName)
+	db, err := gorm.Open("mysql", mysqlUrl)
 	if err != nil {
 		log.Fatalf("连接数据库错误:%v", err)
 	}
